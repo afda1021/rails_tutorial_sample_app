@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
-  get 'static_pages/home'
-  get 'static_pages/help'
-  get 'static_pages/about' #static_pages_about_urlが使えるようになる
-  get 'static_pages/contact'
+  get '/help', to:'static_pages#help'
+  get '/about', to:'static_pages#about' #static_pages_about_urlが使えるようになる
+  get '/contact', to:'static_pages#contact'
+  get '/signup', to: 'users#new'
 end
