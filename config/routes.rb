@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   get '/help', to:'static_pages#help'
   get '/about', to:'static_pages#about' #static_pages_about_urlが使えるようになる
   get '/contact', to:'static_pages#contact'
-  get '/signup', to: 'users#new'
+  get '/signup', to: 'users#new' # 本来は get "/users/new"
+  post '/signup', to: 'users#create' # 本来は post "/users/create"
+  resources :users
 end
