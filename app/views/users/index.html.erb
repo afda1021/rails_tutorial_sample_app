@@ -1,0 +1,13 @@
+<%# (リスト10.37) %>
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate %> <%# (リスト10.45) %>
+
+<ul class="users">
+  <% @users.each do |user| %>
+    <%= render @users %> <%# (リスト10.50, 10.52) %>
+  <% end %>
+</ul>
+
+<%= will_paginate %>

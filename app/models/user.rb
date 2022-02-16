@@ -4,7 +4,7 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i # メアドの形式を指定
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: {case_sensitive: false }
   has_secure_password # セキュアなパスワードを追加
-  validates :password, presence: true, length: { minimum: 6 } # パスワードは6文字以上
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true # パスワードは6文字以上、空でもいい(更新時) (リスト10.13)
 
   # 渡された文字列のハッシュ値を返す
   def User.digest(string)
