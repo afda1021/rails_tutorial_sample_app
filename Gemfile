@@ -27,6 +27,9 @@ gem 'faker' # 実際にいそうなユーザー名を作成できる (リスト1
 # ページネーション (リスト10.44)
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
+# 画像アップロード (リスト13.58)
+gem 'carrierwave'
+gem 'mini_magick'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -62,6 +65,7 @@ end
 
 group :production do
   gem 'pg', '1.1.4'
+  gem 'fog' # 画像アップロード (リスト13.58)
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

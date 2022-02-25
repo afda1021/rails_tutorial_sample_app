@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page]) # (リスト13.23)
   end
 
   def new # new(作成ページ) → create(作成処理)
@@ -52,15 +53,6 @@ class UsersController < ApplicationController
     end
 
     # beforeアクション
-
-    # ログイン済みユーザーかどうか確認 (リスト10.15)
-    def logged_in_user
-      unless logged_in?
-        store_location # (リスト10.31)
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
 
     # 正しいユーザーかどうか確認 (リスト10.25)
     def correct_user

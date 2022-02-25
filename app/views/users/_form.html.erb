@@ -1,5 +1,5 @@
 <%= form_for(@user, url: yield(:url)) do |f| %> <%# @user.new_record? は true → post、false → patch %> <%# "/signup"にpost or /users/:idにpatch %>
-  <%= render 'shared/error_messages' %> <%# エラーがあるときはエラーを表示 %>
+  <%= render 'shared/error_messages', object: f.object %> <%# エラーがあるときはエラーを表示 (リスト13.43) %>
 
   <%= f.label :name %>
   <%= f.text_field :name, class: 'form-control' %>

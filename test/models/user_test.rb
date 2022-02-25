@@ -79,4 +79,13 @@ class UserTest < ActiveSupport::TestCase
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
   end
+
+  # ユーザー削除時マイクロポストも削除　(リスト13.20)
+  test "associated microposts should be destroyed" do
+    @user.save
+    @user.microposts.create!(content: "Lorem ipsum") # ユーザーに紐づくマイクロポストを作成
+    assert_difference 'Micropost.count', -1 do # ユーザー削除時に上で作成したマイクロポストも削除されているか
+      @user.destroy
+    end
+  end
 end
