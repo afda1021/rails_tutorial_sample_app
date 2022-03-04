@@ -18,5 +18,8 @@ module SampleApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # 認証トークンをremoteフォームに埋め込む、JSが無効になっていたときのための設定 (リスト14.37)
+    # config.action_view.embed_authenticity_token_in_remote_forms = true
   end
 end

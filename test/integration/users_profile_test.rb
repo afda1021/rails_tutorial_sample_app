@@ -20,6 +20,11 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_select 'div.pagination', count: 1 # will_paginateが１度のみ表示されているか (13.2.3 演習3)
     @user.microposts.paginate(page: 1).each do |micropost|
       assert_match micropost.content, response.body
-    end 
+    end
+    # 統計情報が表示されているか (14.2.2 演習3)
+    assert_match 'following', response.body
+    # assert_match "#{ @user.following.count }", response.body
+    assert_match 'followers', response.body
+     # assert_match "#{ @user.followers.count }", response.body
   end
 end

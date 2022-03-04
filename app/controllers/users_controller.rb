@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy] # index, edit, update, destroyの前に実行　(リスト10.15)
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers] # index, edit, update, destroyの前に実行　(リスト10.15, 14.25)
   before_action :correct_user,   only: [:edit, :update] # edit, updateの前に実行　(リスト10.25)
   before_action :admin_user,     only: :destroy # (リスト10.59)
 
@@ -44,6 +44,21 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
     redirect_to users_url
+  end
+
+  # (リスト14.25)
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow' # show_follow.html.erbというビューを明示的に呼び出す
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow' # show_follow.html.erbというビューを明示的に呼び出す
   end
 
   private # 外部から使えないようにする

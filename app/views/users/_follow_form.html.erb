@@ -1,0 +1,10 @@
+<%# フォロー/フォロー解除フォーム (リスト14.19) %>
+<% unless current_user?(@user) %> <%# 自分以外のユーザーに対してフォームを表示する %>
+  <div id="follow_form">
+  <% if current_user.following?(@user) %>  <%# フォローしている場合はunfollow、フォローしていない場合はfollowを表示 %>
+    <%= render 'unfollow' %>
+  <% else %>
+    <%= render 'follow' %>
+  <% end %>
+  </div>
+<% end %>
