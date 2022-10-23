@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params) # params[:user]
     if @user.save
       log_in @user # ユーザー登録時にログインも済ませる
-      flash[:success] = "Welcome to the Sample App!"
+      flash[:success] = "Welcome to the Sample App!" # (リスト7.29)
       redirect_to @user # redirect_to user_url(@user)と等価
     else
       render 'new' #views/userのnewファイルを呼び出す
