@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       redirect_back_or user # (リスト10.32)
     else
       # エラーメッセージを作成する
-      flash.now[:danger] = 'Invalid email/password combination' # 本当は正しくない
+      flash.now[:danger] = 'Invalid email/password combination'
       render 'new'
     end
   end
