@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_accessor :remember_token # (リスト 9.3)
+
   has_many :microposts, dependent: :destroy # userとmicropostsは1対多、ユーザーに紐付いたマイクロポストも一緒に削除 (リスト13.11, 13.19)
   has_many :active_relationships, class_name:  "Relationship",
                                   foreign_key: "follower_id",
@@ -18,16 +20,24 @@ class User < ApplicationRecord
   has_secure_password # セキュアなパスワードを追加
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true # パスワードは6文字以上、空でもいい(更新時) (リスト10.13)
 
-  # 渡された文字列のハッシュ値を返す
-  def User.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-                                                  BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
+  class << self # 以下はクラスメソッド (リスト 9.5)
+    # 渡された文字列のハッシュ値を返す
+    def digest(string)
+      cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                    BCrypt::Engine.cost
+      BCrypt::Password.create(string, cost: cost)
+    end
+
+    # ランダムなトークンを返す (リスト 9.2)
+    def new_token
+      SecureRandom.urlsafe_base64
+    end
   end
 
-  # ランダムなトークンを返す (リスト 9.2)
-  def User.new_token
-    SecureRandom.urlsafe_base64
+  # 永続セッションのためにユーザーをデータベースに記憶する (リスト 9.3)
+  def remember
+    self.remember_token = User.new_token # ランダムな文字列
+    update_attribute(:remember_digest, User.digest(remember_token)) # remember_digest: ランダムな文字列をハッシュ化した文字列
   end
 
   # 試作feedの定義 (リスト13.46)
