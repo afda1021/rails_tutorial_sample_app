@@ -10,7 +10,7 @@ class User < ApplicationRecord
   # has_many :followeds, through: :active_relationships # 上はこれでもいいが英文法的に上がふさわしい
   has_many :followers, through: :passive_relationships, source: :follower # followers配列はこのuserをフォローしたuserの集合 (リスト14.12)
   # 上の source: :follower は省略可
-  
+
   before_save { email.downcase! } # オブジェクトが保存される時点でemail属性を強制的に小文字に変換
   validates :name, presence: true, length: { maximum: 50 } # validates(:name, presence: true) # 空白は無効、長さ制限
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i # メアドの形式を指定
@@ -25,12 +25,17 @@ class User < ApplicationRecord
     BCrypt::Password.create(string, cost: cost)
   end
 
+  # ランダムなトークンを返す (リスト 9.2)
+  def User.new_token
+    SecureRandom.urlsafe_base64
+  end
+
   # 試作feedの定義 (リスト13.46)
   # ユーザーのステータスフィードを返す (リスト14.44)
   def feed
     # Micropost.where("user_id = ?", id) # micropostsと本質的に同等、完全な実装は以下 (リスト13.46)
     # Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id) # (リスト14.44)
-    # Micropost.where("user_id IN (:following_ids) OR user_id = :user_id", 
+    # Micropost.where("user_id IN (:following_ids) OR user_id = :user_id",
     #                 following_ids: following_ids, user_id: id) # 上のコードからキーと値のペアを使って修正 (リスト14.46)
     following_ids = "SELECT followed_id FROM relationships
                      WHERE follower_id = :user_id"
