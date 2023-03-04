@@ -42,6 +42,7 @@ class User < ApplicationRecord
 
   # 渡されたトークンがダイジェストと一致したらtrueを返す (リスト 9.6)
   def authenticated?(remember_token)
+    return false if remember_digest.nil? # そもそもremember_digestが存在しない場合はfalse (リスト 9.19)
     # remember_tokenはcookies[:remember_token]の値
     # remember_tokenは文字列、remember_digestはハッシュ化した文字列
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
