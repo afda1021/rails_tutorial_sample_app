@@ -37,7 +37,7 @@ class User < ApplicationRecord
   # 永続セッションのためにユーザーをデータベースに記憶する (リスト 9.3)
   def remember
     self.remember_token = User.new_token # ランダムな文字列
-    update_attribute(:remember_digest, User.digest(remember_token)) # remember_digest: ランダムな文字列をハッシュ化した文字列
+    update_attribute(:remember_digest, User.digest(remember_token)) # ランダムな文字列をハッシュ化した文字列をremember_digestに保存
   end
 
   # 試作feedの定義 (リスト13.46)
