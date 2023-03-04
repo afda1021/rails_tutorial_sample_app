@@ -40,6 +40,13 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, User.digest(remember_token)) # ランダムな文字列をハッシュ化した文字列をremember_digestに保存
   end
 
+  # 渡されたトークンがダイジェストと一致したらtrueを返す (リスト 9.6)
+  def authenticated?(remember_token)
+    # remember_tokenはcookies[:remember_token]の値
+    # remember_tokenは文字列、remember_digestはハッシュ化した文字列
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  end
+
   # 試作feedの定義 (リスト13.46)
   # ユーザーのステータスフィードを返す (リスト14.44)
   def feed
