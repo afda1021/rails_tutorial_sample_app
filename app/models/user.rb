@@ -47,6 +47,11 @@ class User < ApplicationRecord
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
+  # ユーザーのログイン情報を破棄する (リスト 9.11)
+  def forget
+    update_attribute(:remember_digest, nil)
+  end
+
   # 試作feedの定義 (リスト13.46)
   # ユーザーのステータスフィードを返す (リスト14.44)
   def feed
