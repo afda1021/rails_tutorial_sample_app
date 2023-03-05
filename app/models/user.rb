@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token # (リスト 9.3)
+  attr_accessor :remember_token, :activation_token # (リスト 9.3, 11.3)
+  before_save   :downcase_email
+  before_create :create_activation_digest
 
   has_many :microposts, dependent: :destroy # userとmicropostsは1対多、ユーザーに紐付いたマイクロポストも一緒に削除 (リスト13.11, 13.19)
   has_many :active_relationships, class_name:  "Relationship",
@@ -81,4 +83,16 @@ class User < ApplicationRecord
   def following?(other_user)
     following.include?(other_user)
   end
+
+  private
+    # メールアドレスをすべて小文字にする (リスト 11.3)
+    def downcase_email
+      self.email = email.downcase
+    end
+
+    # 有効化トークンとダイジェストを作成および代入する (リスト 11.3)
+    def create_activation_digest
+      self.activation_token  = User.new_token
+      self.activation_digest = User.digest(activation_token)
+    end
 end
