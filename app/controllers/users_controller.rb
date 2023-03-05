@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       # flash[:success] = "Welcome to the Sample App!" # (リスト7.29)
       # redirect_to @user # redirect_to user_url(@user)と等価
       # (リスト 11.23)
-      UserMailer.account_activation(@user).deliver_now
+      @user.send_activation_email
       flash[:info] = "Please check your email to activate your account."
       redirect_to root_url
     else
