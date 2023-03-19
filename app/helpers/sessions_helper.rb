@@ -28,7 +28,7 @@ module SessionsHelper
       user = User.find_by(id: user_id)
       # 永続セッションのuser_idで取得したDBuserのremember_digestと永続セッションのremember_tokenが一致していれば
       # 一時セッションでログインしcurrent_userを設定？
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token]) # (リスト 11.28)
         log_in user
         @current_user = user
       end

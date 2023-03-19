@@ -7,20 +7,28 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # 1人のユーザと、それらしい名前とメアドの99人のユーザーを作成 (リスト10.43)
-User.create!(name:  "Example User", # create!：ユーザーが無効な場合にfalseを返すのではなく例外を発生
+User.create!(
+  name:  "Example User", # create!：ユーザーが無効な場合にfalseを返すのではなく例外を発生
   email: "example@railstutorial.org",
   password:              "foobar",
   password_confirmation: "foobar",
-  admin: true) # このユーザーが管理者 (リスト10.55)
+  admin: true,
+  activated: true,
+  activated_at: Time.zone.now
+) # このユーザーが管理者 (リスト10.55)
 
 99.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
   password = "password"
-  User.create!(name:  name,
-               email: email,
-               password:              password,
-               password_confirmation: password)
+  User.create!(
+    name:  name,
+    email: email,
+    password:              password,
+    password_confirmation: password,
+    activated: true,
+    activated_at: Time.zone.now
+  )
 end
 
 # 最初の6人のユーザーに、それぞれ50個分のマイクロポストを追加 (リスト13.25)

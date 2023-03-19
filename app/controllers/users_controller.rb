@@ -20,9 +20,13 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params) # params[:user]
     if @user.save
-      log_in @user # ユーザー登録時にログインも済ませる
-      flash[:success] = "Welcome to the Sample App!" # (リスト7.29)
-      redirect_to @user # redirect_to user_url(@user)と等価
+      # log_in @user # ユーザー登録時にログインも済ませる
+      # flash[:success] = "Welcome to the Sample App!" # (リスト7.29)
+      # redirect_to @user # redirect_to user_url(@user)と等価
+      # (リスト 11.23)
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       render 'new' #views/userのnewファイルを呼び出す
     end
